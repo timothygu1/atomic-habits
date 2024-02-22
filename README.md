@@ -1,6 +1,6 @@
-#Tim's Habit App
+# Tim's Habit App
 
-A web app built using React & Vite for tracking and managing habits
+A web app built using React & Vite for tracking and managing habi
 
 Styled using Tailwind CSS
 
