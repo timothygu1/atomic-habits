@@ -1,8 +1,11 @@
 import {useRef} from 'react';
 
 import Input from "./Input";
+import Modal from './Modal.jsx';
 
 export default function NewHabit({onAdd}){
+    const modal = useRef();
+
     const title = useRef();
     const description = useRef();
     const frequency = useRef();
@@ -13,6 +16,16 @@ export default function NewHabit({onAdd}){
         const enteredFrequency = frequency.current.value;
 
         // validation ...
+
+        if (enteredTitle.trim() === '' || 
+        enteredDescription.trim() === '' || 
+        enteredFrequency.trim() === ''
+        )
+        {
+            modal.current.open();
+            return;
+        }
+
         onAdd({
             title: enteredTitle,
             description: enteredDescription,
@@ -21,6 +34,12 @@ export default function NewHabit({onAdd}){
     }
 
     return(
+        <>
+        <Modal ref={modal} buttonCaption="Okay">
+            <h2>Invalid Input</h2>
+            <p>Oops... looks like you forgot to enter a value.</p>
+            <p>Please make sure you provide a valid value for every input field.</p>
+        </Modal>
         <div className="w-[35rem] mt-16">
             <menu className="flex items-center justify-end gap-4 my-4">
                 <li>
@@ -39,13 +58,13 @@ export default function NewHabit({onAdd}){
                 </li>
             </menu>
            <div>
-           <Input ref = {title}label="Title" />
+           <Input type = "text" ref = {title}label="Title" />
            <Input ref = {description} label="Description" textarea/>
-           <Input ref = {frequency} label="Frequency"/>
+           <Input type = "date" ref = {frequency} label="Frequency"/>
            </div>
 
         </div>
-        
+        </>
 
 
     );

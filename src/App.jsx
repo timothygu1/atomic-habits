@@ -22,13 +22,15 @@ function App() {
 
   function handleAddHabit(habitData){
     setHabitsState(prevState => {
+      const projectId = Math.random();
       const newHabit = {
         ...habitData,
-        id: Math.random()
+        id: projectId
       };
 
       return {
         ...prevState,
+        selectedHabitId: undefined,
         habits: [...prevState.habits, newHabit ]
       };
     })
@@ -47,7 +49,10 @@ function App() {
 
   return (
     <main className="h-screen my-8 flex gap-8">
-      <HabitsSidebar onStartAddHabit={handleStartAddHabit}/>
+      <HabitsSidebar 
+      onStartAddHabit={handleStartAddHabit} 
+      habits={habitsState.habits}
+      />
       {content}
     </main>
   );
