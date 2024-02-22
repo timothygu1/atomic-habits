@@ -36,12 +36,21 @@ function App() {
     })
   }
 
+  function handleCancelAddHabit(){
+    setHabitsState(prevState => {
+      return {
+        ...prevState,
+        selectedHabitId: undefined,
+      };
+    });
+  }
+
   console.log(habitsState);
 
   let content;
 
   if (habitsState.selectedHabitId === null){
-    content = <NewHabit onAdd = {handleAddHabit} />
+    content = <NewHabit onAdd = {handleAddHabit} onCancel={handleCancelAddHabit} />
   }
   else if (habitsState.selectedHabitId === undefined){
     content = <NoHabitSelected onStartAddHabit={handleStartAddHabit} />;
