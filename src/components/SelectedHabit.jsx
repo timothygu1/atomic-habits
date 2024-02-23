@@ -1,6 +1,6 @@
 import Details from "./Details";
 
-export default function SelectedHabit({habit, onDelete}){
+export default function SelectedHabit({details, habit, onDelete, onAddDetail, onDeleteDetail}){
 
     const formattedFrequency = new Date(habit.frequency).toLocaleDateString('en-US',{
         year: 'numeric',
@@ -27,7 +27,7 @@ export default function SelectedHabit({habit, onDelete}){
                 {habit.description}
             </p>
         </header>
-        <Details/>
+        <Details onAdd={onAddDetail} onDelete = {onDeleteDetail} details = {details}/>
         
     </div>
     );
