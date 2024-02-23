@@ -1,13 +1,16 @@
 import {useState} from 'react';
 
 export default function NewDetail({onAdd}){
-    const [enteredDetail, setEnteredDetail] = useState();
+    const [enteredDetail, setEnteredDetail] = useState('');
 
     function handleChange(event) {
         setEnteredDetail(event.target.value);
     }
 
     function handleClick(){
+        if (enteredDetail.trim()==='') {
+            return;
+        }
         onAdd(enteredDetail);
         setEnteredDetail('');
     }

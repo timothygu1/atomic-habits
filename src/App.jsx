@@ -32,7 +32,18 @@ function App() {
     })
   }
 
-  function handleDeleteDetail(){}
+  function handleDeleteDetail(id){
+    setHabitsState(prevState => {
+      return { 
+        ...prevState,
+        details: prevState.details.filter(
+          (detail) => detail.id !== id
+          ),
+      };
+    });
+  }
+
+
   function handleDeleteHabit() {
     setHabitsState(prevState => {
       return { 
@@ -114,6 +125,7 @@ function App() {
       onSelectHabit={handleSelectHabit}
       onStartAddHabit={handleStartAddHabit} 
       habits={habitsState.habits}
+      selectedHabitId={habitsState.selectedHabitId}
       />
       {content}
     </main>
