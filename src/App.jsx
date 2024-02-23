@@ -3,6 +3,7 @@ import {useState} from 'react';
 import HabitsSidebar from "./components/HabitsSidebar";
 import NewHabit from "./components/NewHabit";
 import NoHabitSelected from "./components/NoHabitSelected";
+import SelectedHabit from './components/SelectedHabit';
 
 
 function App() {
@@ -10,6 +11,28 @@ function App() {
     selectedHabitId: undefined,
     habits: []
   });
+
+  
+  function handleDeleteHabit() {
+    setHabitsState(prevState => {
+      return { 
+        ...prevState,
+        selectedHabitId: undefined,
+        habits: prevState.habits.filter(
+          (habit) => habit.id !== prevState.selectedHabitId
+          ),
+      };
+    });
+  }
+
+  function handleSelectHabit(id) {
+    setHabitsState(prevState => {
+      return { 
+        ...prevState,
+        selectedHabitId: id,
+      };
+    });
+  }
 
   function handleStartAddHabit(){
     setHabitsState(prevState => {
@@ -22,10 +45,10 @@ function App() {
 
   function handleAddHabit(habitData){
     setHabitsState(prevState => {
-      const projectId = Math.random();
+      const habitId = Math.random();
       const newHabit = {
         ...habitData,
-        id: projectId
+        id: habitId
       };
 
       return {
@@ -47,7 +70,9 @@ function App() {
 
   console.log(habitsState);
 
-  let content;
+  const selectedHabit = habitsState.habits.find(habit => habit.id === habitsState.selectedHabitId);
+
+  let content = <SelectedHabit habit={selectedHabit} onDelete={handleDeleteHabit}/>
 
   if (habitsState.selectedHabitId === null){
     content = <NewHabit onAdd = {handleAddHabit} onCancel={handleCancelAddHabit} />
@@ -55,10 +80,12 @@ function App() {
   else if (habitsState.selectedHabitId === undefined){
     content = <NoHabitSelected onStartAddHabit={handleStartAddHabit} />;
   }
+  
 
   return (
     <main className="h-screen my-8 flex gap-8">
       <HabitsSidebar 
+      onSelectHabit={handleSelectHabit}
       onStartAddHabit={handleStartAddHabit} 
       habits={habitsState.habits}
       />
