@@ -5,39 +5,41 @@ import NewHabit from "./components/NewHabit";
 import NoHabitSelected from "./components/NoHabitSelected";
 import SelectedHabit from './components/SelectedHabit';
 
+import { HabitsContext } from './store/habits-context';
+
 
 function App() {
   const [habitsState, setHabitsState] = useState({
     selectedHabitId: undefined,
     habits: [],
-    //cumbersome method for details
+    //cumbersome method for tasks
 
-    details: []
+    tasks: []
   });
 
   
-  function handleAddDetail (text){
+  function handleAddTask (text){
     setHabitsState(prevState => {
-      const detailId = Math.random();
-      const newDetail = {
+      const taskId = Math.random();
+      const newTask = {
         text: text,
         habitId: prevState.selectedHabitId,
-        id: detailId,
+        id: taskId,
       };
 
       return {
         ...prevState,
-        details: [newDetail, ...prevState.details]
+        tasks: [newTask, ...prevState.tasks]
       };
     })
   }
 
-  function handleDeleteDetail(id){
+  function handleDeleteTask(id){
     setHabitsState(prevState => {
       return { 
         ...prevState,
-        details: prevState.details.filter(
-          (detail) => detail.id !== id
+        tasks: prevState.tasks.filter(
+          (task) => task.id !== id
           ),
       };
     });
@@ -103,13 +105,17 @@ function App() {
 
   const selectedHabit = habitsState.habits.find(habit => habit.id === habitsState.selectedHabitId);
 
-  let content = <SelectedHabit 
-  habit={selectedHabit} 
-  onDelete={handleDeleteHabit}
-  onAddDetail ={handleAddDetail}
-  onDeleteDetail = {handleDeleteDetail}
-  details={habitsState.details}
-  />
+
+    let content = <SelectedHabit 
+    habit={selectedHabit} 
+    onDelete={handleDeleteHabit}
+    onAddTask ={handleAddTask}
+    onDeleteTask = {handleDeleteTask}
+    tasks={habitsState.tasks}
+    />
+
+
+  
 
   if (habitsState.selectedHabitId === null){
     content = <NewHabit onAdd = {handleAddHabit} onCancel={handleCancelAddHabit} />
@@ -121,12 +127,17 @@ function App() {
 
   return (
     <main className="h-screen my-8 flex gap-8">
+
+      <HabitsContext.Provider value = {habitsState}>
+
       <HabitsSidebar 
       onSelectHabit={handleSelectHabit}
       onStartAddHabit={handleStartAddHabit} 
-      habits={habitsState.habits}
       selectedHabitId={habitsState.selectedHabitId}
       />
+
+      </HabitsContext.Provider>
+
       {content}
     </main>
   );

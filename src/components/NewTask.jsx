@@ -1,18 +1,18 @@
 import {useState} from 'react';
 
-export default function NewDetail({onAdd}){
-    const [enteredDetail, setEnteredDetail] = useState('');
+export default function NewTask({onAdd}){
+    const [enteredTask, setEnteredTask] = useState('');
 
     function handleChange(event) {
-        setEnteredDetail(event.target.value);
+        setEnteredTask(event.target.value);
     }
 
     function handleClick(){
-        if (enteredDetail.trim()==='') {
+        if (enteredTask.trim()==='') {
             return;
         }
-        onAdd(enteredDetail);
-        setEnteredDetail('');
+        onAdd(enteredTask);
+        setEnteredTask('');
     }
 
     return (
@@ -20,12 +20,12 @@ export default function NewDetail({onAdd}){
         <input type = "text" 
         className="w-64 px-2 py-1 bg-stone-200 rounded-sm"
         onChange = {handleChange}
-        value={enteredDetail}
+        value={enteredTask}
         />
         <button 
         className="text-stone-700 hover:text-stone-950"
         onClick={handleClick}>
-            Add Detail</button>
+            Add Task</button>
 
     </div>
     );

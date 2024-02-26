@@ -1,6 +1,6 @@
 import {useRef} from 'react';
 
-import Input from "./Input";
+import Input from "./Input.jsx";
 import Modal from './Modal.jsx';
 
 export default function NewHabit({onAdd, onCancel }){
@@ -8,18 +8,18 @@ export default function NewHabit({onAdd, onCancel }){
 
     const title = useRef();
     const description = useRef();
-    const frequency = useRef();
+    const date = useRef();
 
     function handleSave() {
         const enteredTitle = title.current.value;
         const enteredDescription = description.current.value;
-        const enteredFrequency = frequency.current.value;
+        const enteredDate = date.current.value;
 
         // validation ...
 
         if (enteredTitle.trim() === '' || 
         enteredDescription.trim() === '' || 
-        enteredFrequency.trim() === ''
+        enteredDate.trim() === ''
         )
         {
             modal.current.open();
@@ -29,7 +29,7 @@ export default function NewHabit({onAdd, onCancel }){
         onAdd({
             title: enteredTitle,
             description: enteredDescription,
-            frequency: enteredFrequency
+            date: enteredDate
         })
     }
 
@@ -60,7 +60,7 @@ export default function NewHabit({onAdd, onCancel }){
            <div>
            <Input type = "text" ref = {title}label="Title" />
            <Input ref = {description} label="Description" textarea/>
-           <Input type = "date" ref = {frequency} label="Frequency"/>
+           <Input type = "date" ref = {date} label="Date"/>
            </div>
 
         </div>

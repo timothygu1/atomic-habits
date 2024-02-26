@@ -1,8 +1,12 @@
-import Details from "./Details";
+import {useContext} from 'react';
 
-export default function SelectedHabit({details, habit, onDelete, onAddDetail, onDeleteDetail}){
+import Tasks from "./Tasks";
+import { HabitsContext } from "../store/habits-context";
 
-    const formattedFrequency = new Date(habit.frequency).toLocaleDateString('en-US',{
+export default function SelectedHabit({tasks, habit, onDelete, onAddTask, onDeleteTask}){
+    //const tasksContext = useContext(HabitsContext);
+
+    const formattedDate = new Date(habit.date).toLocaleDateString('en-US',{
         year: 'numeric',
         month: 'short',
         day: 'numeric',
@@ -21,13 +25,13 @@ export default function SelectedHabit({details, habit, onDelete, onAddDetail, on
             </button>
             </div>
             <p className="mb-4 text-stone-400">
-                {formattedFrequency}
+                {formattedDate}
             </p>
             <p className="text-stone-600 whitespace-pre-wrap">
                 {habit.description}
             </p>
         </header>
-        <Details onAdd={onAddDetail} onDelete = {onDeleteDetail} details = {details}/>
+        <Tasks onAdd={onAddTask} onDelete = {onDeleteTask} tasks = {tasks}/>
         
     </div>
     );
