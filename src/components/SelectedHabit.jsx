@@ -3,7 +3,7 @@ import {useContext} from 'react';
 import Tasks from "./Tasks";
 import { HabitsContext } from "../store/habits-context";
 
-export default function SelectedHabit({tasks, habit, onDelete, onAddTask, onDeleteTask}){
+export default function SelectedHabit({id, tasks, habit, onDelete, onAddTask, onDeleteTask}){
     //const tasksContext = useContext(HabitsContext);
 
     const formattedDate = new Date(habit.date).toLocaleDateString('en-US',{
@@ -31,7 +31,7 @@ export default function SelectedHabit({tasks, habit, onDelete, onAddTask, onDele
                 {habit.description}
             </p>
         </header>
-        <Tasks onAdd={onAddTask} onDelete = {onDeleteTask} tasks = {tasks}/>
+        <Tasks id = {id} onAdd={onAddTask} onDelete = {onDeleteTask} tasks = {tasks}/>
         
     </div>
     );

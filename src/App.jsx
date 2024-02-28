@@ -112,6 +112,7 @@ function App() {
     onAddTask ={handleAddTask}
     onDeleteTask = {handleDeleteTask}
     tasks={habitsState.tasks}
+    id = {habitsState.selectedHabitId}
     />
 
 
@@ -128,15 +129,12 @@ function App() {
   return (
     <main className="h-screen my-8 flex gap-8">
 
-      <HabitsContext.Provider value = {habitsState}>
-
       <HabitsSidebar 
+      habits = {habitsState.habits}
       onSelectHabit={handleSelectHabit}
       onStartAddHabit={handleStartAddHabit} 
       selectedHabitId={habitsState.selectedHabitId}
       />
-
-      </HabitsContext.Provider>
 
       {content}
     </main>
