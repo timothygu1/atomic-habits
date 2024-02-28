@@ -1,9 +1,14 @@
 import {useRef} from 'react';
 
+import { HabitsContext } from '../store/habits-context.jsx';
+import { useContext } from 'react';
+
 import Input from "./Input.jsx";
 import Modal from './Modal.jsx';
 
-export default function NewHabit({onAdd, onCancel }){
+export default function NewHabit(){
+    const habitsCtx = useContext(HabitsContext);
+
     const modal = useRef();
 
     const title = useRef();
@@ -26,7 +31,7 @@ export default function NewHabit({onAdd, onCancel }){
             return;
         }
 
-        onAdd({
+        habitsCtx.addHabit({
             title: enteredTitle,
             description: enteredDescription,
             date: enteredDate
@@ -43,7 +48,7 @@ export default function NewHabit({onAdd, onCancel }){
         <div className="w-[35rem] mt-16">
             <menu className="flex items-center justify-end gap-4 my-4">
                 <li>
-                    <button onClick ={onCancel}
+                    <button onClick ={habitsCtx.cancelAddHabit}
                      className="text-stone-800 hover:text-stone-950"
                     >
                     Cancel

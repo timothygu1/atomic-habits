@@ -1,6 +1,12 @@
+import { HabitsContext } from '../store/habits-context';
+import { useContext } from 'react';
+
 import {useState} from 'react';
 
-export default function NewTask({onAdd}){
+export default function NewTask(){
+    
+    const habitsCtx = useContext(HabitsContext);
+
     const [enteredTask, setEnteredTask] = useState('');
 
     function handleChange(event) {
@@ -11,9 +17,10 @@ export default function NewTask({onAdd}){
         if (enteredTask.trim()==='') {
             return;
         }
-        onAdd(enteredTask);
+        habitsCtx.addTask(enteredTask);
         setEnteredTask('');
     }
+
 
     return (
     <div className ="flex items-center gap-4">

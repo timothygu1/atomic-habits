@@ -1,25 +1,33 @@
+import { HabitsContext } from "../store/habits-context";
+import { useContext } from "react";
+
 import NewTask from "./NewTask"
 
-export default function Tasks({id, tasks, onAdd, onDelete}) {
+export default function Tasks() {
+
+  const habitsCtx = useContext(HabitsContext);
+
     return (
     <section>
         <h2 className="text-2xl font-bold text-stone-700 mb-4">Tasks</h2>
-        <NewTask onAdd={onAdd}/>
-        {tasks.length === 0 && (
+        
+        <HabitsContext.Provider value = {habitsCtx}><NewTask/></HabitsContext.Provider>
+        
+        {habitsCtx.tasks.length === 0 && (
         <p className="text-stone-800 my-4">
             This habit does not have any tasks yet.
         </p>
         )}
-       {tasks.length > 0 && (
+       {habitsCtx.tasks.length > 0 && (
         <ul className="p-4 mt-8 rounded-md bg-stone-100">
-          {tasks.map((task) =>{
+          {habitsCtx.tasks.map((task) =>{
             
-            return task.habitId === id ? (
+            return task.habitId === habitsCtx.selectedHabitId ? (
               <li key={task.id} className="flex justify-between my-4">
                 <span>{task.text}</span>
                 <button
                   className="text-stone-700 hover:text-red-500"
-                  onClick={() => onDelete(task.id)}
+                  onClick={() => habitsCtx.deleteTask(task.id)}
                 >
                   Clear
                 </button>

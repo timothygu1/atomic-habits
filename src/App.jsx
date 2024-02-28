@@ -107,7 +107,7 @@ function App() {
     selectedHabitId: habitsState.selectedHabitId,
     habits: habitsState.habits,
     tasks: habitsState.tasks,
-    selectedHabit: {selectedHabit},
+    selectedHabit: selectedHabit,
 
     selectHabit: handleSelectHabit,
     startAddHabit: handleStartAddHabit,
@@ -119,40 +119,35 @@ function App() {
     
   }
 
-    let content = <SelectedHabit 
-    habit={selectedHabit} 
-    onDelete={handleDeleteHabit}
-    onAddTask ={handleAddTask}
-    onDeleteTask = {handleDeleteTask}
-    tasks={habitsState.tasks}
-    id = {habitsState.selectedHabitId}
-    />
+    let content = <HabitsContext.Provider value = {ctxValue}>
+    <SelectedHabit/>
+    </HabitsContext.Provider>
 
-
-  
 
   if (habitsState.selectedHabitId === null){
-    content = <NewHabit onAdd = {handleAddHabit} onCancel={handleCancelAddHabit} />
+    
+    content = <HabitsContext.Provider value = {ctxValue}>
+      <NewHabit/>
+      </HabitsContext.Provider>
+
   }
   else if (habitsState.selectedHabitId === undefined){
-    content = <NoHabitSelected onStartAddHabit={handleStartAddHabit} />;
+    content = <HabitsContext.Provider value = {ctxValue}>
+      <NoHabitSelected/>
+      </HabitsContext.Provider>
   }
   
 
   return (
     <main className="h-screen my-8 flex gap-8">
       <HabitsContext.Provider value = {ctxValue}>
-      <HabitsSidebar 
-      habits = {habitsState.habits}
-      onSelectHabit={handleSelectHabit}
-      onStartAddHabit={handleStartAddHabit} 
-      selectedHabitId={habitsState.selectedHabitId}
-      />
+      <HabitsSidebar/>
       </HabitsContext.Provider>
       
       {content}
     </main>
   );
+  
 }
 
 export default App;

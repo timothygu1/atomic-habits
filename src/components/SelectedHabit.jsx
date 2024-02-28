@@ -3,10 +3,10 @@ import {useContext} from 'react';
 import Tasks from "./Tasks";
 import { HabitsContext } from "../store/habits-context";
 
-export default function SelectedHabit({id, tasks, habit, onDelete, onAddTask, onDeleteTask}){
-    //const tasksContext = useContext(HabitsContext);
+export default function SelectedHabit(){
+    const habitsCtx = useContext(HabitsContext);
 
-    const formattedDate = new Date(habit.date).toLocaleDateString('en-US',{
+    const formattedDate = new Date(habitsCtx.selectedHabit.date).toLocaleDateString('en-US',{
         year: 'numeric',
         month: 'short',
         day: 'numeric',
@@ -17,10 +17,10 @@ export default function SelectedHabit({id, tasks, habit, onDelete, onAddTask, on
         <header className="pb-4 mb-4 border-b-2 border-stone-300">
             <div className ="flex items-center justify-between">
             <h1 className="text-3xl font-bold text-stone-600 mb-2">
-                {habit.title}
+                {habitsCtx.selectedHabit.title}
             </h1>
             <button className="text-stone-600 hover:text-stone-950"
-            onClick = {onDelete}>
+            onClick = {habitsCtx.deleteHabit}>
                 Delete
             </button>
             </div>
@@ -28,11 +28,12 @@ export default function SelectedHabit({id, tasks, habit, onDelete, onAddTask, on
                 {formattedDate}
             </p>
             <p className="text-stone-600 whitespace-pre-wrap">
-                {habit.description}
+                {habitsCtx.selectedHabit.description}
             </p>
         </header>
-        <Tasks id = {id} onAdd={onAddTask} onDelete = {onDeleteTask} tasks = {tasks}/>
-        
+        <HabitsContext.Provider value = {habitsCtx}>
+            <Tasks/>
+        </HabitsContext.Provider>
     </div>
     );
 }

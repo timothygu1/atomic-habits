@@ -1,7 +1,12 @@
+import { HabitsContext } from '../store/habits-context.jsx';
+import { useContext } from 'react';
+
 import HabitImage from '../assets/Checklist-PNG-Image.png';
 import Button from './Button.jsx'
 
-export default function NoHabitSelected({onStartAddHabit}) {
+export default function NoHabitSelected() {
+  const habitsCtx = useContext(HabitsContext);
+
     return (
     <div className="mt-24 text-center w-2/3">
       <img 
@@ -14,7 +19,7 @@ export default function NoHabitSelected({onStartAddHabit}) {
         </h2>
       <p className="text-stone-400 mb-4">Select a habit or get started with a new one</p>
       <p className="mt-8">
-      <Button onClick={onStartAddHabit}>Create new habit</Button>
+      <Button onClick={habitsCtx.startAddHabit}>Create new habit</Button>
       </p>
     </div>
     );

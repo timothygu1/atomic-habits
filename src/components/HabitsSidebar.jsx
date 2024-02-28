@@ -4,11 +4,7 @@ import { HabitsContext } from '../store/habits-context.jsx';
 import Button from './Button.jsx'
 
 
-export default function HabitsSidebar({
-    onStartAddHabit,
-    onSelectHabit, 
-    habits,
-    selectedHabitId}){
+export default function HabitsSidebar(){
 
     const habitsctx = useContext(HabitsContext);
 
