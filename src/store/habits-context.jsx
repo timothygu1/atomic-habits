@@ -4,5 +4,15 @@ import {createContext} from 'react';
 export const HabitsContext = createContext({
     selectedHabitId: undefined,
     habits: [],
-    tasks: []
+    tasks: [],
+    selectedHabit: undefined,
+
+    selectHabit: () => {},
+    startAddHabit: () => {},
+    addHabit: () => {},
+    cancelAddHabit: () => {},
+    deleteHabit: () => {},
+    addTask: () => {},
+    deleteTask: () => {},
+    
 });

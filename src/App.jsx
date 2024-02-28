@@ -13,7 +13,6 @@ function App() {
     selectedHabitId: undefined,
     habits: [],
     //cumbersome method for tasks
-
     tasks: []
   });
 
@@ -104,7 +103,21 @@ function App() {
   console.log(habitsState);
 
   const selectedHabit = habitsState.habits.find(habit => habit.id === habitsState.selectedHabitId);
+  const ctxValue = {
+    selectedHabitId: habitsState.selectedHabitId,
+    habits: habitsState.habits,
+    tasks: habitsState.tasks,
+    selectedHabit: {selectedHabit},
 
+    selectHabit: handleSelectHabit,
+    startAddHabit: handleStartAddHabit,
+    addHabit: handleAddHabit,
+    cancelAddHabit: handleCancelAddHabit,
+    deleteHabit: handleDeleteHabit,
+    addTask: handleAddTask,
+    deleteTask: handleDeleteTask
+    
+  }
 
     let content = <SelectedHabit 
     habit={selectedHabit} 
@@ -128,14 +141,15 @@ function App() {
 
   return (
     <main className="h-screen my-8 flex gap-8">
-
+      <HabitsContext.Provider value = {ctxValue}>
       <HabitsSidebar 
       habits = {habitsState.habits}
       onSelectHabit={handleSelectHabit}
       onStartAddHabit={handleStartAddHabit} 
       selectedHabitId={habitsState.selectedHabitId}
       />
-
+      </HabitsContext.Provider>
+      
       {content}
     </main>
   );
