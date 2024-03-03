@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useState, useReducer} from 'react';
 
 import HabitsSidebar from "./components/HabitsSidebar";
 import NewHabit from "./components/NewHabit";
@@ -8,96 +8,150 @@ import SelectedHabit from './components/SelectedHabit';
 import { HabitsContext } from './store/habits-context';
 
 
-function App() {
-  const [habitsState, setHabitsState] = useState({
-    selectedHabitId: undefined,
-    habits: [],
-    //cumbersome method for tasks
-    tasks: []
-  });
+function habitsReducer(state, action){
 
-  
-  function handleAddTask (text){
-    setHabitsState(prevState => {
-      const taskId = Math.random();
+  if (action.type === 'ADD_TASK') {
+    const taskId = Math.random();
       const newTask = {
-        text: text,
-        habitId: prevState.selectedHabitId,
+        text: action.payload,
+        habitId: state.selectedHabitId,
         id: taskId,
       };
 
       return {
-        ...prevState,
-        tasks: [newTask, ...prevState.tasks]
+        ...state,
+        tasks: [newTask, ...state.tasks]
       };
-    })
   }
 
-  function handleDeleteTask(id){
-    setHabitsState(prevState => {
-      return { 
-        ...prevState,
-        tasks: prevState.tasks.filter(
-          (task) => task.id !== id
-          ),
-      };
-    });
+  if (action.type === 'DELETE_TASK'){
+    return { 
+      ...state,
+      tasks: state.tasks.filter(
+        (task) => task.id !== action.payload
+        ),
+    };
   }
 
-
-  function handleDeleteHabit() {
-    setHabitsState(prevState => {
-      return { 
-        ...prevState,
-        selectedHabitId: undefined,
-        habits: prevState.habits.filter(
-          (habit) => habit.id !== prevState.selectedHabitId
-          ),
-      };
-    });
+  if (action.type === 'DELETE_HABIT'){
+    return { 
+      ...state,
+      selectedHabitId: undefined,
+      habits: state.habits.filter(
+        (habit) => habit.id !== state.selectedHabitId
+        ),
+    };
   }
 
-  function handleSelectHabit(id) {
-    setHabitsState(prevState => {
-      return { 
-        ...prevState,
-        selectedHabitId: id,
-      };
-    });
+  if (action.type === 'SELECT_HABIT'){
+    return { 
+      ...state,
+      selectedHabitId: action.payload,
+    };
   }
 
-  function handleStartAddHabit(){
-    setHabitsState(prevState => {
-      return { 
-        ...prevState,
-        selectedHabitId: null,
-      };
-    });
-  }
-
-  function handleAddHabit(habitData){
-    setHabitsState(prevState => {
-      const habitId = Math.random();
+  if (action.type === 'ADD_HABIT'){
+    const habitId = Math.random();
       const newHabit = {
-        ...habitData,
+        ...action.payload,
         id: habitId
       };
 
       return {
-        ...prevState,
+        ...state,
         selectedHabitId: undefined,
-        habits: [...prevState.habits, newHabit ]
+        habits: [...state.habits, newHabit ]
       };
+  }
+
+  if (action.type === 'CANCEL_ADD'){
+    return {
+      ...state,
+      selectedHabitId: undefined,
+    };
+  }
+
+  if (action.type === 'START_ADD'){
+    return { 
+      ...state,
+      selectedHabitId: null,
+    };
+  }
+
+  return state;
+}
+
+function App() {
+
+  const [habitsState, habitsDispatch] = useReducer(
+    habitsReducer, 
+    {
+    selectedHabitId: undefined,
+    habits: [],
+    //cumbersome method for tasks
+    tasks: []
+    }
+  );
+
+
+  function handleAddTask (text){
+    habitsDispatch({
+      type: 'ADD_TASK',
+      payload: text
+    });
+
+  }
+
+  function handleDeleteTask(id){
+    habitsDispatch({
+      type: 'DELETE_TASK',
+      payload: id
+    });
+
+  }
+
+
+  function handleDeleteHabit() {
+
+    habitsDispatch({
+      type: 'DELETE_HABIT',
+    });
+
+  }
+
+  function handleSelectHabit(id) {
+    
+    habitsDispatch({
+      type: 'SELECT_HABIT',
+      payload: id
     })
   }
 
+  function handleStartAddHabit(){
+
+    habitsDispatch(
+      {
+        type: 'START_ADD'
+      }
+    );
+  }
+
+  function handleAddHabit(habitData){
+
+    habitsDispatch(
+      {
+        type: 'ADD_HABIT',
+        payload: habitData
+      }
+    );
+  }
+
   function handleCancelAddHabit(){
-    setHabitsState(prevState => {
-      return {
-        ...prevState,
-        selectedHabitId: undefined,
-      };
-    });
+    habitsDispatch(
+      {
+        type: 'CANCEL_ADD',
+      }
+    );
   }
 
   console.log(habitsState);
