@@ -7,7 +7,6 @@ import SelectedHabit from './components/SelectedHabit';
 
 import { HabitsContext } from './store/habits-context';
 
-
 function habitsReducer(state, action){
 
   if (action.type === 'ADD_TASK') {
