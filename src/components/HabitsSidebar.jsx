@@ -6,6 +6,8 @@ import Button from './Button.jsx'
 
 export default function HabitsSidebar(){
 
+    // Todo: Fetch habits from backend API
+
     const habitsctx = useContext(HabitsContext);
 
     return( <aside className="w-1/3 px-8 py-16 bg-stone-900 text-stone-50 md:w-72 rounded-r-xl">
@@ -18,6 +20,7 @@ export default function HabitsSidebar(){
             
         </div>
         <ul className ="mt-8">
+    
             {habitsctx.habits.map((habit) => {
 
                 let cssClasses = "w-full text-left px-2 py-1 rounded-sm my-1 hover:text-stone-200 hover:bg-stone-800"  
