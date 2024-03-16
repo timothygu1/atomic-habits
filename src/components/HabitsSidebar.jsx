@@ -4,7 +4,7 @@ import { HabitsContext } from '../store/habits-context.jsx';
 import Button from './Button.jsx'
 
 
-export default function HabitsSidebar(){
+export default function HabitsSidebar(isLoading, loadingText){
 
     // Todo: Fetch habits from backend API
 
@@ -13,6 +13,7 @@ export default function HabitsSidebar(){
     return( <aside className="w-1/3 px-8 py-16 bg-stone-900 text-stone-50 md:w-72 rounded-r-xl">
         <h2 className="mb-8 font-bold uppercase md:text-xl text-stone-200">
             Your Habits</h2>
+            {/*isLoading && <p>Fetching habit data...</p>*/}
         <div>
             <Button onClick = {habitsctx.startAddHabit}>
                 + Add Habit

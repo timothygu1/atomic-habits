@@ -1,8 +1,10 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import fs from 'node:fs/promises';
+import poolPromise from './database.js'
 
 const app = express();
+    
 
 app.use(bodyParser.urlencoded({extended: false}));
 
@@ -17,11 +19,17 @@ app.use((req, res, next) => {
   });
 
 app.get('/habits', async(req, res) => {
-    const fileContent = await fs.readFile('./backend/message.json');
+    
+    poolPromise.execute('SELECT * FROM habits')
+    .then( result => {
+        console.log(result[0], result[1]);
+        res.status(200).json({habits: result[0]});
 
-    const habitsData = JSON.parse(fileContent);
-
-    res.status(200).json({habits: habitsData});
+    })
+    .catch(err => {
+        console.log(err);
+    });
+    
 })
 
 app.use('/add', (req, res, next) => {

@@ -99,19 +99,29 @@ function App() {
     }
   );
 
+  const [isFetching, setIsFetching] = useState(false);
+
   useEffect(() => {
+
+    async function fetchHabits() {
       
-    fetch('http://localhost:3000/habits')
-      .then((response) => {
-        return response.json()
-      })
-      .then((resData) => {
-        console.log(resData.habits);
-        habitsDispatch({
-          type:'HABIT_INIT',
-          payload: resData.habits
-        });
-      });
+    setIsFetching(true);
+      
+    const response = await fetch('http://localhost:3000/habits')
+    const resData = await response.json();
+    
+    console.log(resData.habits);
+    habitsDispatch({
+      type:'HABIT_INIT',
+      payload: resData.habits
+    });
+    
+  
+    setIsFetching(false);
+
+    }
+
+    fetchHabits();
 
   }, [])
 
@@ -217,7 +227,9 @@ function App() {
   return (
     <main className="h-screen my-8 flex gap-8">
       <HabitsContext.Provider value = {ctxValue}>
-      <HabitsSidebar/>
+      <HabitsSidebar
+      isLoading={isFetching}
+      />
       </HabitsContext.Provider>
       
       {content}
