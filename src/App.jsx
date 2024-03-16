@@ -1,4 +1,4 @@
-import {useState, useReducer} from 'react';
+import {useState, useReducer, useEffect} from 'react';
 
 import HabitsSidebar from "./components/HabitsSidebar";
 import NewHabit from "./components/NewHabit";
@@ -7,8 +7,14 @@ import SelectedHabit from './components/SelectedHabit';
 
 import { HabitsContext } from './store/habits-context';
 
-
 function habitsReducer(state, action){
+
+  if (action.type === 'HABIT_INIT') {
+    return{
+      ...state,
+      habits: action.payload
+    }
+  }
 
   if (action.type === 'ADD_TASK') {
     const taskId = Math.random();
@@ -92,6 +98,32 @@ function App() {
     tasks: []
     }
   );
+
+  const [isFetching, setIsFetching] = useState(false);
+
+  useEffect(() => {
+
+    async function fetchHabits() {
+      
+    setIsFetching(true);
+      
+    const response = await fetch('http://localhost:3000/habits')
+    const resData = await response.json();
+    
+    console.log(resData.habits);
+    habitsDispatch({
+      type:'HABIT_INIT',
+      payload: resData.habits
+    });
+    
+  
+    setIsFetching(false);
+
+    }
+
+    fetchHabits();
+
+  }, [])
 
 
   function handleAddTask (text){
@@ -195,7 +227,9 @@ function App() {
   return (
     <main className="h-screen my-8 flex gap-8">
       <HabitsContext.Provider value = {ctxValue}>
-      <HabitsSidebar/>
+      <HabitsSidebar
+      isLoading={isFetching}
+      />
       </HabitsContext.Provider>
       
       {content}
